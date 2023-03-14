@@ -50,6 +50,21 @@ fun notContains(array: IntArray): Int {
     return -1
 }
 
+//5. გვაქვს n სართულიანი კიბე, ერთ მოქმედებაში შეგვიძლია ავიდეთ 1 ან 2 საფეხურით. დაწერეთ
+//ფუნქცია რომელიც დაითვლის n სართულზე ასვლის ვარიანტების რაოდენობას.
+//Int countVariants(Int stearsCount);
 
-
+fun countVariants(stepsCount: Int): Int {
+    if (stepsCount <= 2) {
+        return stepsCount
+    }
+    var prev = 1
+    var current = 2
+    for (i in 3..stepsCount) {
+        val next = prev + current
+        prev = current
+        current = next
+    }
+    return current
+}
 

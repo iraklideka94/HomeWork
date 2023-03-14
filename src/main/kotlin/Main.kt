@@ -50,6 +50,27 @@ fun notContains(array: IntArray): Int {
     return -1
 }
 
+//4.მოცემულია ორი binary string a და b, დააბრუნეთ მათი ჯამი, როგორც binary string.
+//მაგ: a = "1010" b = "1011"; , მათი ჯამი იქნება "10101"
+
+fun addBinary(a: String, b: String): String {
+    var carry = 0
+    var i = a.length - 1
+    var j = b.length - 1
+    val sb = StringBuilder()
+    while (i >= 0 || j >= 0 || carry > 0) {
+        val digitA = if (i >= 0) a[i] - '0' else 0
+        val digitB = if (j >= 0) b[j] - '0' else 0
+        val sum = digitA + digitB + carry
+        sb.append(sum % 2)
+        carry = sum / 2
+        i--
+        j--
+    }
+    return sb.reverse().toString()
+}
+
+
 //5. გვაქვს n სართულიანი კიბე, ერთ მოქმედებაში შეგვიძლია ავიდეთ 1 ან 2 საფეხურით. დაწერეთ
 //ფუნქცია რომელიც დაითვლის n სართულზე ასვლის ვარიანტების რაოდენობას.
 //Int countVariants(Int stearsCount);
@@ -67,4 +88,50 @@ fun countVariants(stepsCount: Int): Int {
     }
     return current
 }
+
+
+//6. დაწერეთ საკუთარი მონაცემთა სტრუქტურა, რომელიც საშუალებას მოგვცემს O(1) დროში
+//წავშალოთ ელემენტი.
+
+class DeletionHashMap<K, V> {
+    private val map = HashMap<K, Node<K, V>>()
+    private var head: Node<K, V>? = null
+    private var tail: Node<K, V>? = null
+    
+    data class Node<K, V>(
+        val key: K,
+        var value: V,
+        var prev: Node<K, V>? = null,
+        var next: Node<K, V>? = null
+    )
+    
+    fun put(key: K, value: V) {
+        val newNode = Node(key, value)
+        map[key] = newNode
+        if (head == null) {
+            head = newNode
+            tail = newNode
+        } else {
+            newNode.next = head
+            head?.prev = newNode
+            head = newNode
+        }
+    }
+    
+    fun remove(key: K) {
+        val nodeToRemove = map[key] ?: return
+        map.remove(key)
+        if (nodeToRemove.prev == null) {
+            head = nodeToRemove.next
+        } else {
+            nodeToRemove.prev?.next = nodeToRemove.next
+        }
+        if (nodeToRemove.next == null) {
+            tail = nodeToRemove.prev
+        } else {
+            nodeToRemove.next?.prev = nodeToRemove.prev
+        }
+    }
+}
+
 

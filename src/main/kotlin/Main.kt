@@ -32,4 +32,24 @@ fun minSplit(amount: Int): Int {
 }
 
 
+//3. მოცემულია მასივი, რომელიც შედგება მთელი რიცხვებისგან. დაწერეთ ფუნქცია რომელსაც
+//გადაეცემა ეს მასივი და აბრუნებს მინიმალურ მთელ რიცხვს, რომელიც 0-ზე მეტია და ამ მასივში
+//არ შედის.
+//Int notContains(Int[] array);
+
+fun notContains(array: IntArray): Int {
+    val set = HashSet<Int>()
+    for (i in array.indices) {
+        set.add(array[i])
+    }
+    for (i in 1..Int.MAX_VALUE) {
+        if (!set.contains(i)) {
+            return i
+        }
+    }
+    return -1
+}
+
+
+
 
